@@ -31,6 +31,7 @@ public class MainActivity extends BaseActivity implements OnRecyclerViewItemClic
 
         List<String> datas = new ArrayList<>();
         datas.add("Video视频播放器");
+        datas.add("Surface视频播放器");
         datas.add("音频播放器");
 
         mAdapter = new MainViewHolderAdapter(datas, getApplicationContext());
@@ -50,6 +51,9 @@ public class MainActivity extends BaseActivity implements OnRecyclerViewItemClic
         switch (position) {
             case 0:
                 intent = new Intent(MainActivity.this, VideoActivity.class);
+                break;
+            case 1:
+                intent = new Intent(MainActivity.this, SurfaceActivity.class);
                 break;
             default:
                 intent = new Intent(getApplicationContext(), MediaActivity.class);

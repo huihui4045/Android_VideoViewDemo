@@ -1,10 +1,13 @@
 package com.huihui.video.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by gavin on 2017/2/22.
  */
 
-public class Video {
+public class Video implements Parcelable {
 
     private int id;
     private String title;
@@ -102,4 +105,47 @@ public class Video {
     public void setDuration(long duration) {
         this.duration = duration;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeString(this.title);
+        dest.writeString(this.album);
+        dest.writeString(this.artist);
+        dest.writeString(this.displayName);
+        dest.writeString(this.mimeType);
+        dest.writeString(this.path);
+        dest.writeLong(this.size);
+        dest.writeLong(this.duration);
+    }
+
+    protected Video(Parcel in) {
+        this.id = in.readInt();
+        this.title = in.readString();
+        this.album = in.readString();
+        this.artist = in.readString();
+        this.displayName = in.readString();
+        this.mimeType = in.readString();
+        this.path = in.readString();
+        this.size = in.readLong();
+        this.duration = in.readLong();
+    }
+
+    public static final Parcelable.Creator<Video> CREATOR = new Parcelable.Creator<Video>() {
+        @Override
+        public Video createFromParcel(Parcel source) {
+            return new Video(source);
+        }
+
+        @Override
+        public Video[] newArray(int size) {
+            return new Video[size];
+        }
+    };
 }

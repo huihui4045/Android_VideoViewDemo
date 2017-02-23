@@ -1,10 +1,12 @@
 package com.huihui.video.activity;
 
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.view.View;
 import android.widget.MediaController;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -13,15 +15,17 @@ import android.widget.VideoView;
 import com.huihui.video.DividerGridItemDecoration;
 import com.huihui.video.R;
 import com.huihui.video.VideoProvider;
+import com.huihui.video.adapter.OnRecyclerViewItemClickListener;
 import com.huihui.video.adapter.VideoAdapter;
 import com.huihui.video.bean.Video;
 
 import java.util.List;
 
-public class VideoActivity extends BaseActivity {
+public class VideoActivity extends BaseActivity implements OnRecyclerViewItemClickListener {
 
     private RecyclerView mRecyclerVideo;
     private VideoView mVideoView;
+    private VideoAdapter mVideoAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +45,12 @@ public class VideoActivity extends BaseActivity {
 
         if (videos != null && videos.size() > 0) {
 
-            mRecyclerVideo.setAdapter(new VideoAdapter(getApplicationContext(), videos));
+            mVideoAdapter = new VideoAdapter(getApplicationContext(), videos);
+            mRecyclerVideo.setAdapter(mVideoAdapter);
         }
+
+
+        mVideoAdapter.setOnItemClickListener(this);
 
 
         mVideoView = ((VideoView) findViewById(R.id.video_view));
@@ -94,6 +102,19 @@ public class VideoActivity extends BaseActivity {
             //为VideoView添加属性
             videoView.setLayoutParams(LayoutParams);
         }
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+
+        Video itemData = mVideoAdapter.getItemData(position);
+
+        Intent intent = new Intent(getApplicationContext(), SurfaceActivity.class);
+
+        intent.putExtra("data",itemData);
+
+        startActivity(intent);
+
     }
 
     class MyPlayerOnCompletionListener implements MediaPlayer.OnCompletionListener {

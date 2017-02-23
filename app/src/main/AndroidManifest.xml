@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.huihui.video">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -18,8 +18,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.VideoActivity" />
-        <activity android:name=".activity.MediaActivity"
-            android:launchMode="singleInstance"></activity>
+        <activity
+            android:name=".activity.MediaActivity"
+            android:launchMode="singleInstance" />
+        <activity android:name=".activity.SurfaceActivity"></activity>
     </application>
 
 </manifest>

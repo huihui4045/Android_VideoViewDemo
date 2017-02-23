@@ -25,9 +25,21 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
 
     private List<Video> mVideos;
 
+    private OnRecyclerViewItemClickListener mItemClickListener;
+
+
     public VideoAdapter(Context mContext, List<Video> mVideos) {
         this.mContext = mContext;
         this.mVideos = mVideos;
+    }
+
+    public Video getItemData(int position) {
+
+        return mVideos.get(position);
+    }
+
+    public void setOnItemClickListener(OnRecyclerViewItemClickListener mItemClickListener) {
+        this.mItemClickListener = mItemClickListener;
     }
 
     @Override
@@ -36,7 +48,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
     }
 
     @Override
-    public void onBindViewHolder(VideoViewHolder holder, int position) {
+    public void onBindViewHolder(VideoViewHolder holder, final int position) {
 
         Video video = mVideos.get(position);
         if (video != null) {
@@ -48,6 +60,18 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
             media.setDataSource(video.getPath());
             Bitmap bitmap = media.getFrameAtTime();
             holder.mImageView.setImageBitmap(bitmap);
+
+            if (mItemClickListener != null) {
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        mItemClickListener.onItemClick(v, position);
+                    }
+                });
+            }
+
 
         }
     }
@@ -69,6 +93,8 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
 
             mImageView = (ImageView) itemView.findViewById(R.id.image_thumb);
             mTvName = ((TextView) itemView.findViewById(R.id.tv_videoName));
+
+
         }
     }
 }
